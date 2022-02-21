@@ -1,21 +1,14 @@
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import HelloWorld from './components/HelloWorld.vue'
+import LocationInput from './components/LocationInput.vue'
+
 </script>
 
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <div class="h-screen flex flex-col justify-center">
+    <h1 class="text-center my-5 text-indigo-400 text-5xl font-bold">Walks &amp; Pubs</h1>
+    <p class="text-center my-5 text-3xl text-gray-800 font-bold">Need inspiration for a walk? Looking for a nice, cosy pub? Look no further.</p>
+    <div id="body" class="my-5 flex items-center justify-center">
+      <location-input />
+    </div>
+  </div>
 </template>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
