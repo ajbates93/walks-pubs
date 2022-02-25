@@ -1,6 +1,7 @@
 <script setup lang="ts">
 /* eslint-disable-no-undef */
 import LocationInput from './components/LocationInput.vue'
+import HeaderBar from './components/HeaderBar.vue'
 import { computed, onMounted, reactive, ref } from 'vue'
 import { useGeolocation } from './useGeolocation'
 import { Loader } from '@googlemaps/js-api-loader'
@@ -28,11 +29,11 @@ const getLocation = async (position: Coordinates) => {
   await loader.load()
   new google.maps.Map(mapDiv.value, {
     center: position,
-    zoom: 14
+    zoom: 15
   })
   const map = new google.maps.Map(mapDiv.value, {
     center: position,
-    zoom: 14
+    zoom: 15
   })
   const infoWindow = new google.maps.InfoWindow({
     maxWidth: 400
@@ -73,11 +74,12 @@ const getLocation = async (position: Coordinates) => {
 </script>
 
 <template>
+  <header-bar />
   <div class="flex flex-col justify-center">
-    <h1 class="text-center my-10 text-indigo-400 text-5xl font-bold">WanderInn</h1>
-    <p class="text-center my-5 text-2xl text-gray-600 font-bold">Need inspiration for a walk? Looking for a nice, cosy pub? Look no further.</p>
-    <div id="body" class="my-10 text-center">
-      <location-input @getLocation="getLocation(currPos)" @getLocationFromInput="position => getLocation(position)" />
+    <h1 class="text-center my-10 text-indigo-400 text-5xl font-bold" id="title">Wander In</h1>
+    <p class="text-center text-2xl text-gray-600 font-bold">Need inspiration for a walk? Looking for a nice, cosy pub? Look no further.</p>
+    <div id="body" class="my-5 text-center">
+      <location-input @getLocation="getLocation(currPos)" @getLocationFromInput="position => getLocation(position.currPos)" />
     </div>
     <!-- <div class="oax-top-cont" ref="oaxDiv"></div> -->
     <div class="relative bg-gray-200" ref="mapDiv" style="width: 100%; height: 70vh; max-height: 600px;">
@@ -88,5 +90,14 @@ const getLocation = async (position: Coordinates) => {
         <p class="text-gray-400 font-bold">Enter your location to view results...</p>
       </div>
     </div>
+    <div class="flex justify-center py-5">
+      <a target="_blank" class="px-2 py-1 text-sm font-bold bg-indigo-400 text-white rounded-lg" href="https://ko-fi.com/ajbates93">Like this project? Support me on Ko-Fi! ☕</a>
+    </div>
   </div>
 </template>
+
+<style scoped>
+#title {
+  position: relative;
+}
+</style>

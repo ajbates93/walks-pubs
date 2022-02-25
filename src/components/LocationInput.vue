@@ -12,7 +12,7 @@ const getLocationFromBrowser = () => {
   emits('getLocation')
 }
 const getLocationFromInput = () => {
-  emits('getLocationFromInput', currPos)
+  emits('getLocationFromInput', {currPos, initAutocomplete})
 }
 
 const currPos: Coordinates = reactive<Coordinates>({
@@ -34,8 +34,8 @@ const initAutocomplete = () => {
     
     // update local geometry state
     Object.assign(currPos, {
-      lat: place.geometry.location.lat(),
-      lng: place.geometry.location.lng()
+      lat: parseFloat(place.geometry.location.lat()),
+      lng: parseFloat(place.geometry.location.lng())
     })
     
     getLocationFromInput()
