@@ -1,7 +1,6 @@
 <script setup lang="ts">
 /* eslint-disable-no-undef */
 import LocationInput from '../components/LocationInput.vue'
-import HeaderBar from '../components/HeaderBar.vue'
 import { computed, onMounted, reactive, ref } from 'vue'
 import { useGeolocation } from '../useGeolocation'
 import { Loader } from '@googlemaps/js-api-loader'
@@ -74,7 +73,6 @@ const getLocation = async (position: Coordinates) => {
 </script>
 
 <template>
-  <header-bar />
   <div class="flex flex-col justify-center">
     <h1 class="text-center my-10 text-6xl font-bold text-gray-700" id="title">Wander In</h1>
     <p class="text-center text-2xl text-gray-400 font-bold">Need inspiration for a walk? Looking for a nice, cosy pub? Look no further.</p>
