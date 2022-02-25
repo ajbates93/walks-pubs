@@ -34,16 +34,25 @@ const getLocation = async (position: Coordinates) => {
     center: position,
     zoom: 14
   })
+  const infoWindow = new google.maps.InfoWindow({
+    maxWidth: 400
+  })
   const request = {
     location: position,
     radius: '500',
-    type: ['bar', 'restaurant']
+    type: ['bar']
   }
   const addMarker = (result: any) => {
-    new google.maps.Marker({
+    const infoWindowContent = `<b>${result.name}</b><br/><br/>` 
+      + `${result.vicinity}` 
+    const marker = new google.maps.Marker({
       position: result.geometry.location,
       map: map,
       title: result.name
+    })
+    marker.addListener('click', () => {
+      infoWindow.setContent(infoWindowContent)
+      infoWindow.open(map, marker)
     })
   }
   const service = new google.maps.places.PlacesService(map)
