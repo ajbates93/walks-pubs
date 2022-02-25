@@ -1,13 +1,19 @@
 <script setup lang="ts">
 /* eslint-disable-no-undef */
 import LocationInput from './components/LocationInput.vue'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useGeolocation } from './useGeolocation'
 import { Loader } from '@googlemaps/js-api-loader'
+
+interface Coordinates {
+  lat: Number,
+  lng: Number
+}
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyCOY6-U5wGpWin0Cggur-In11Bhbx7mAXI'
 
 const { coords } = useGeolocation()
+
 const currPos = computed(() => ({
   lat: coords.value.latitude,
   lng: coords.value.longitude
@@ -16,10 +22,10 @@ const currPos = computed(() => ({
 const loader = new Loader({ apiKey: GOOGLE_MAPS_API_KEY })
 const mapDiv = ref(null)
 
-const getLocation = async () => {
+const getLocation = async (position: Coordinates) => {
   await loader.load()
   new google.maps.Map(mapDiv.value, {
-    center: currPos.value,
+    center: position,
     zoom: 14
   })
 }
@@ -33,7 +39,7 @@ const getLocation = async () => {
     <div id="body" class="my-5 text-center">
       <!-- <h4 class="text-lg">Your position</h4>
       <p>Latitude: {{ currPos.lat.toFixed(2) }}, Longitude: {{ currPos.lng.toFixed(2) }}</p> -->
-      <location-input @getLocation="getLocation" />
+      <location-input @getLocation="getLocation(currPos)" @getLocationFromInput="position => getLocation(position)" />
     </div>
     <div class="relative bg-gray-200" ref="mapDiv" style="width: 100%; height: 60vh">
       <div class="block flex flex-col justify-center items-center text-gray-400 h-full">
