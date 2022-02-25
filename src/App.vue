@@ -76,8 +76,8 @@ const getLocation = async (position: Coordinates) => {
 <template>
   <header-bar />
   <div class="flex flex-col justify-center">
-    <h1 class="text-center my-10 text-indigo-400 text-5xl font-bold" id="title">Wander In</h1>
-    <p class="text-center text-2xl text-gray-600 font-bold">Need inspiration for a walk? Looking for a nice, cosy pub? Look no further.</p>
+    <h1 class="text-center my-10 text-6xl font-bold text-gray-700" id="title">Wander In</h1>
+    <p class="text-center text-2xl text-gray-400 font-bold">Need inspiration for a walk? Looking for a nice, cosy pub? Look no further.</p>
     <div id="body" class="my-5 text-center">
       <location-input @getLocation="getLocation(currPos)" @getLocationFromInput="position => getLocation(position.currPos)" />
     </div>
@@ -91,7 +91,7 @@ const getLocation = async (position: Coordinates) => {
       </div>
     </div>
     <div class="flex justify-center py-5">
-      <a target="_blank" class="px-2 py-1 text-sm font-bold bg-indigo-400 text-white rounded-lg" href="https://ko-fi.com/ajbates93">Like this project? Support me on Ko-Fi! ☕</a>
+      <a target="_blank" class="px-2 py-1 text-sm font-bold bg-indigo-500 text-white rounded-lg" href="https://ko-fi.com/ajbates93">Like this project? Support me on Ko-Fi! ☕</a>
     </div>
   </div>
 </template>
