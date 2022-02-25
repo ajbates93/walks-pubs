@@ -1,10 +1,10 @@
 <template>
   <header class="block bg-white py-3 px-5 flex justify-end items-center">
-    <a class="text-gray-600 font-bold ml-5 underline underline-offset-8" href="javascript:void(0)">
+    <router-link to="/" class="text-gray-600 font-bold ml-5 underline underline-offset-8">
       Home
-    </a>
-    <a class="text-gray-600 font-bold ml-5" href="javascript:void(0)">
+    </router-link>
+    <router-link to="/about" class="text-gray-600 font-bold ml-5">
       About
-    </a>
+    </router-link>
   </header>
 </template>
