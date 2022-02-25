@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.13.6",
+    "axios": "^0.26.0",
     "vue": "^3.2.25"
   },
   "devDependencies": {

@@ -23,25 +23,55 @@ const loader = new Loader({ apiKey: GOOGLE_MAPS_API_KEY })
 const mapDiv = ref(null)
 
 const getLocation = async (position: Coordinates) => {
+  // const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${position.lat}%2C1${position.lng}&radius=500&type=restaurant&keyword=pub&key=AIzaSyCOY6-U5wGpWin0Cggur-In11Bhbx7mAXI`
+  
   await loader.load()
   new google.maps.Map(mapDiv.value, {
     center: position,
     zoom: 14
   })
+  const map = new google.maps.Map(mapDiv.value, {
+    center: position,
+    zoom: 14
+  })
+  const request = {
+    location: position,
+    radius: '500',
+    type: ['bar', 'restaurant']
+  }
+  const addMarker = (result: any) => {
+    new google.maps.Marker({
+      position: result.geometry.location,
+      map: map,
+      title: result.name
+    })
+  }
+  const service = new google.maps.places.PlacesService(map)
+  service.nearbySearch(request, (results: any, status: any) => {
+    for (const result in results) {
+      addMarker(results[result])
+    }
+  })
+  // const config: AxiosRequestConfig<any> = {
+  //   method: 'get',
+  //   url: url,
+  //   headers: {
+  //     'Access-Control-Allow-Origin': 'http://localhost:3000'
+  //   }
+  // }
 }
 
 </script>
 
 <template>
-  <div class="h-screen flex flex-col justify-center">
-    <h1 class="text-center my-5 text-indigo-400 text-5xl font-bold">Walks &amp; Pubs</h1>
-    <p class="text-center my-5 text-3xl text-gray-800 font-bold">Need inspiration for a walk? Looking for a nice, cosy pub? Look no further.</p>
-    <div id="body" class="my-5 text-center">
-      <!-- <h4 class="text-lg">Your position</h4>
-      <p>Latitude: {{ currPos.lat.toFixed(2) }}, Longitude: {{ currPos.lng.toFixed(2) }}</p> -->
+  <div class="flex flex-col justify-center">
+    <h1 class="text-center my-10 text-indigo-400 text-5xl font-bold">WanderInn</h1>
+    <p class="text-center my-5 text-2xl text-gray-600 font-bold">Need inspiration for a walk? Looking for a nice, cosy pub? Look no further.</p>
+    <div id="body" class="my-10 text-center">
       <location-input @getLocation="getLocation(currPos)" @getLocationFromInput="position => getLocation(position)" />
     </div>
-    <div class="relative bg-gray-200" ref="mapDiv" style="width: 100%; height: 60vh">
+    <!-- <div class="oax-top-cont" ref="oaxDiv"></div> -->
+    <div class="relative bg-gray-200" ref="mapDiv" style="width: 100%; height: 70vh; max-height: 600px;">
       <div class="block flex flex-col justify-center items-center text-gray-400 h-full">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 my-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
