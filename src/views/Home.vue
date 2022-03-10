@@ -1,5 +1,4 @@
-<script setup lang="ts">
-/* eslint-disable-no-undef */
+<script setup lang='ts'>
 import LocationInput from '../components/LocationInput.vue'
 import { computed, onMounted, reactive, ref } from 'vue'
 import { useGeolocation } from '../useGeolocation'
@@ -48,7 +47,8 @@ const getLocation = async (position: Coordinates) => {
     const marker = new google.maps.Marker({
       position: result.geometry.location,
       map: map,
-      title: result.name
+      title: result.name,
+      animation: google.maps.Animation.DROP
     })
     marker.addListener('click', () => {
       infoWindow.setContent(infoWindowContent)
@@ -57,8 +57,11 @@ const getLocation = async (position: Coordinates) => {
   }
   const service = new google.maps.places.PlacesService(map)
   service.nearbySearch(request, (results: any, status: any) => {
-    for (const result in results) {
-      addMarker(results[result])
+    for (let i = 0; i < results.length; i++) {
+      const result = results[i]
+      window.setTimeout(() => {
+        addMarker(result)
+      }, i * 150)
     }
   })
   // const config: AxiosRequestConfig<any> = {
