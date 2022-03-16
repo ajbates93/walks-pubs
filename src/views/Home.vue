@@ -42,8 +42,9 @@ const getLocation = async (position: Coordinates) => {
     type: ['bar']
   }
   const addMarker = (result: any) => {
-    const infoWindowContent = `<b>${result.name}</b><br/><br/>` 
-      + `${result.vicinity}` 
+    const infoWindowContent = `<b class='text-xl'>${result.name}</b><br/><br/>` 
+      + `<span class='text-sm'>${result.vicinity}</span><br /><br />`
+      + `⭐️ <b class='text-sm'>${result.rating} / 5</b>` 
     const marker = new google.maps.Marker({
       position: result.geometry.location,
       map: map,
@@ -91,8 +92,9 @@ const getLocation = async (position: Coordinates) => {
         <p class="text-gray-400 font-bold">Enter your location to view results...</p>
       </div>
     </div>
-    <div class="flex justify-center py-5">
-      <a target="_blank" class="px-2 py-1 text-sm font-bold bg-indigo-500 text-white rounded-lg" href="https://ko-fi.com/ajbates93">Like this project? Support me on Ko-Fi! ☕</a>
+    <div class="flex justify-center flex-col items-center py-5">
+      <a target="_blank" class="my-2 px-2 py-1 text-sm font-bold bg-indigo-500 text-white rounded-lg" href="https://ko-fi.com/ajbates93">Like this project? Support me on Ko-Fi! ☕</a>
+      <span class="pt-3">© Alex Bates 2022</span>
     </div>
   </div>
 </template>

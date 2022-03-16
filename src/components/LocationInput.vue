@@ -61,7 +61,7 @@ onMounted(() => {
             </svg>
           </a>
         </button>
-        <input type="text" ref="autocomplete" name="location" class="text-lg outline-0 px-4 py-2 w-80" placeholder="Enter your location...">
+        <input type="text" ref="autocomplete" name="location" class="text-lg outline-0 px-4 py-2 w-60 md:w-80" placeholder="Enter your location...">
         <button class="flex bg-indigo-500 hover:bg-indigo-600 rounded-r-lg border-l-2 text-white items-center justify-center px-4 border-l">
             <svg class="w-6 h-6 text-gray-600" fill="#fff" xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24">
