@@ -7,8 +7,8 @@ import HeaderBar from './components/HeaderBar.vue'
   <header-bar />
   <router-view v-slot="{ Component }">
     <transition 
-        class="transition-all"
-        :enter-active-class="'fade-in ease-out'" :leave-active-class="'fade-out ease-in'"
+        class="animate__animated animate__faster"
+        :enter-active-class="'animate__fadeIn'" :leave-active-class="'animate__fadeOut'"
         mode="out-in"
       >
         <component :is="Component" />
