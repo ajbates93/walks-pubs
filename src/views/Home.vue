@@ -13,6 +13,8 @@ const GOOGLE_MAPS_API_KEY = 'AIzaSyCOY6-U5wGpWin0Cggur-In11Bhbx7mAXI'
 
 const { coords } = useGeolocation()
 
+const encodedRoute = "g{zhItm|J}@wAg@cA^kBASw@[aCwAiAa@cBcA[MkBSw@RsEbB[Tu@b@k@`Ak@n@WpAC|AL?Ch@w@lC_@~BIhAEfCKf@Jn@Xf@?xA_@f@yCtJ}AhEw@v@uCJaA?u@Lu@l@eBfCCn@e@hAgAjB?LMb@iC~BO?a@Rm@oCALmApA}@xFeCnRiAlFo@rFc@vZ_AhK{AfKUlFkAlJaBzKc@`C_A|D?f@MdBsCvI[~Aq@rBqCnHu@|@IDsGjEaA`@]hAm@tCGPn@~Dd@bHFlGCzCBdE_@hDiAdDqAoAWMaFkBmAYYa@EMMEcAw@I?[S[g@e@n@e@DGSC?m@ZIAIa@C@Uc@UoAc@Lw@f@yB~Bs@ZKL}@u@o@[_CqAmD{CA`@HdAC^w@|Av@}AB_@IeA@a@lDzCdAn@RcAYYSg@]qAc@eAUFi@ZgAGMYf@w@f@cAC_BB{ATsBz@}DRwAjAqEb@qA`A_CfA{CHg@p@eBjBkEZoAtAyEB_@^qANM~AoDX}@DqAGcBBw@G{@@o@Z}ANsBzAiHnBiH`@cEnAkErCmMrDwWZ_FBgCHyBn@iIRq@PEDMPu@PeBp@wAh@cBJB?{@E}AhCaCbBkAdB}BfAyBb@o@bBiDREV?VJZEd@Ml@u@|@u@dDxA|@`AbCjEZ`@VDZ?RMh@s@Po@ZJXjA^l@|@dE`@SN?hC_CLc@l@`@xAa@\\u@Za@bAg@pCi@f@`@NEZa@bA{@HA~CyJ|DwHjAiDtDqOb@kCPo@z@wAuCsHrEcBv@SjBRZLbBbAhA`@`CvAv@Z@R_@jBf@bA|@vAv@l@"
+
 const currPos = computed(() => ({
   lat: coords.value.latitude,
   lng: coords.value.longitude
@@ -31,7 +33,7 @@ const getLocation = async (position: Coordinates) => {
   })
   const map = new google.maps.Map(mapDiv.value, {
     center: position,
-    zoom: 15
+    zoom: 16
   })
   const infoWindow = new google.maps.InfoWindow({
     maxWidth: 400
@@ -41,6 +43,16 @@ const getLocation = async (position: Coordinates) => {
     radius: '500',
     type: ['bar']
   }
+  console.log(google.maps)
+  const path = google.maps.geometry.encoding.decodePath(encodedRoute)
+  const routeOptions = {
+    strokeColor: '#6366f1',
+    strokeOpacity: 1.0,
+    strokeWeight: 3,
+    map: map,
+    path: path
+  }
+  const route = new google.maps.Polyline(routeOptions)
   const addMarker = (result: any) => {
     const infoWindowContent = `<b class='text-xl'>${result.name}</b><br/><br/>` 
       + `<span class='text-sm'>${result.vicinity}</span><br /><br />`
@@ -58,8 +70,11 @@ const getLocation = async (position: Coordinates) => {
   }
   const service = new google.maps.places.PlacesService(map)
   service.nearbySearch(request, (results: any, status: any) => {
-    for (let i = 0; i < results.length; i++) {
-      const result = results[i]
+    // set max amount to 20
+    const nearest = results.slice(0, 20)
+    // loop through each venue and add marker to map (with drop animation)
+    for (let i = 0; i < nearest.length; i++) {
+      const result = nearest[i]
       window.setTimeout(() => {
         addMarker(result)
       }, i * 150)
@@ -84,7 +99,7 @@ const getLocation = async (position: Coordinates) => {
       <location-input @getLocation="getLocation(currPos)" @getLocationFromInput="position => getLocation(position.currPos)" />
     </div>
     <!-- <div class="oax-top-cont" ref="oaxDiv"></div> -->
-    <div class="relative bg-gray-200" ref="mapDiv" style="width: 100%; height: 70vh; max-height: 600px;">
+    <div class="relative bg-gray-200 rounded-xl max-w-screen-xl mx-auto" ref="mapDiv" style="width: 100%; height: 70vh; max-height: 600px;">
       <div class="block flex flex-col justify-center items-center text-gray-400 h-full">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 my-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
