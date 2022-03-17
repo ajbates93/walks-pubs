@@ -9,11 +9,31 @@ interface Coordinates {
   lng: Number
 }
 
+interface Route {
+  id: String,
+  name: String,
+  description: String,
+  distance: Number,
+  estimatedDuration: Number,
+  encodedRoute: String,
+  createdAt: Date,
+  mapUrl: String
+}
+
 const GOOGLE_MAPS_API_KEY = 'AIzaSyCOY6-U5wGpWin0Cggur-In11Bhbx7mAXI'
 
 const { coords } = useGeolocation()
 
-const encodedRoute = "g{zhItm|J}@wAg@cA^kBASw@[aCwAiAa@cBcA[MkBSw@RsEbB[Tu@b@k@`Ak@n@WpAC|AL?Ch@w@lC_@~BIhAEfCKf@Jn@Xf@?xA_@f@yCtJ}AhEw@v@uCJaA?u@Lu@l@eBfCCn@e@hAgAjB?LMb@iC~BO?a@Rm@oCALmApA}@xFeCnRiAlFo@rFc@vZ_AhK{AfKUlFkAlJaBzKc@`C_A|D?f@MdBsCvI[~Aq@rBqCnHu@|@IDsGjEaA`@]hAm@tCGPn@~Dd@bHFlGCzCBdE_@hDiAdDqAoAWMaFkBmAYYa@EMMEcAw@I?[S[g@e@n@e@DGSC?m@ZIAIa@C@Uc@UoAc@Lw@f@yB~Bs@ZKL}@u@o@[_CqAmD{CA`@HdAC^w@|Av@}AB_@IeA@a@lDzCdAn@RcAYYSg@]qAc@eAUFi@ZgAGMYf@w@f@cAC_BB{ATsBz@}DRwAjAqEb@qA`A_CfA{CHg@p@eBjBkEZoAtAyEB_@^qANM~AoDX}@DqAGcBBw@G{@@o@Z}ANsBzAiHnBiH`@cEnAkErCmMrDwWZ_FBgCHyBn@iIRq@PEDMPu@PeBp@wAh@cBJB?{@E}AhCaCbBkAdB}BfAyBb@o@bBiDREV?VJZEd@Ml@u@|@u@dDxA|@`AbCjEZ`@VDZ?RMh@s@Po@ZJXjA^l@|@dE`@SN?hC_CLc@l@`@xAa@\\u@Za@bAg@pCi@f@`@NEZa@bA{@HA~CyJ|DwHjAiDtDqOb@kCPo@z@wAuCsHrEcBv@SjBRZLbBbAhA`@`CvAv@Z@R_@jBf@bA|@vAv@l@"
+const data: Route = {
+  id: "2939587407451212760",
+  name: 'Burnsall to Grassington Loop',
+  description: '',
+  distance: 11433.961372232674,
+  estimatedDuration: 8225,
+  encodedRoute: "g{zhItm|J}@wAg@cA^kBASw@[aCwAiAa@cBcA[MkBSw@RsEbB[Tu@b@k@`Ak@n@WpAC|AL?Ch@w@lC_@~BIhAEfCKf@Jn@Xf@?xA_@f@yCtJ}AhEw@v@uCJaA?u@Lu@l@eBfCCn@e@hAgAjB?LMb@iC~BO?a@Rm@oCALmApA}@xFeCnRiAlFo@rFc@vZ_AhK{AfKUlFkAlJaBzKc@`C_A|D?f@MdBsCvI[~Aq@rBqCnHu@|@IDsGjEaA`@]hAm@tCGPn@~Dd@bHFlGCzCBdE_@hDiAdDqAoAWMaFkBmAYYa@EMMEcAw@I?[S[g@e@n@e@DGSC?m@ZIAIa@C@Uc@UoAc@Lw@f@yB~Bs@ZKL}@u@o@[_CqAmD{CA`@HdAC^w@|Av@}AB_@IeA@a@lDzCdAn@RcAYYSg@]qAc@eAUFi@ZgAGMYf@w@f@cAC_BB{ATsBz@}DRwAjAqEb@qA`A_CfA{CHg@p@eBjBkEZoAtAyEB_@^qANM~AoDX}@DqAGcBBw@G{@@o@Z}ANsBzAiHnBiH`@cEnAkErCmMrDwWZ_FBgCHyBn@iIRq@PEDMPu@PeBp@wAh@cBJB?{@E}AhCaCbBkAdB}BfAyBb@o@bBiDREV?VJZEd@Ml@u@|@u@dDxA|@`AbCjEZ`@VDZ?RMh@s@Po@ZJXjA^l@|@dE`@SN?hC_CLc@l@`@xAa@\\u@Za@bAg@pCi@f@`@NEZa@bA{@HA~CyJ|DwHjAiDtDqOb@kCPo@z@wAuCsHrEcBv@SjBRZLbBbAhA`@`CvAv@Z@R_@jBf@bA|@vAv@l@",
+  createdAt: new Date("2022-03-17T17:10:53Z"),
+  mapUrl: "https://d3o5xota0a1fcr.cloudfront.net/v6/maps/OQO5Z3LEXR2BPACPGGK43YA32PPAUKH2CXBTIJ62ZOHEDIBQA7KUVGFMLAPZ3G2PXMN6CZSR2G2AQVI4AQ7H4LDNSY7RJMOJSIGA===="
+}
 
 const currPos = computed(() => ({
   lat: coords.value.latitude,
@@ -38,13 +58,16 @@ const getLocation = async (position: Coordinates) => {
   const infoWindow = new google.maps.InfoWindow({
     maxWidth: 400
   })
+  const routeWindow = new google.maps.InfoWindow({
+    maxWidth: 700
+  })
   const request = {
     location: position,
     radius: '500',
     type: ['bar']
   }
   console.log(google.maps)
-  const path = google.maps.geometry.encoding.decodePath(encodedRoute)
+  const path = google.maps.geometry.encoding.decodePath(data.encodedRoute)
   const routeOptions = {
     strokeColor: '#6366f1',
     strokeOpacity: 1.0,
@@ -53,6 +76,16 @@ const getLocation = async (position: Coordinates) => {
     path: path
   }
   const route = new google.maps.Polyline(routeOptions)
+  const routeWindowContent = `<b class='text-xl'>${data.name}</b><br/><br/>` 
+      + `<div class='text-base mb-3'><p><b>Distance</b>: ${data.distance.toFixed(2)}km</p><p><b>Created At</b>: ${data.createdAt.toLocaleDateString()}</p></div>`
+      + `<img src='${data.mapUrl}' alt='map image' />`
+      + `<div class='pt-5 text-center'><a class='text-white text-sm bg-orange-400 py-2 px-3' href='/'>View on Strava</a></div>`
+  google.maps.event.addListener(route, 'click', (e) => {
+    console.log('hi')
+    routeWindow.setContent(routeWindowContent)
+    routeWindow.setPosition(e.latLng)
+    routeWindow.open(map)
+  })
   const addMarker = (result: any) => {
     const infoWindowContent = `<b class='text-xl'>${result.name}</b><br/><br/>` 
       + `<span class='text-sm'>${result.vicinity}</span><br /><br />`
@@ -94,7 +127,7 @@ const getLocation = async (position: Coordinates) => {
 <template>
   <div class="flex flex-col justify-center">
     <h1 class="text-center my-10 text-6xl font-bold text-gray-700" id="title">Wander In</h1>
-    <p class="text-center text-2xl text-gray-400 font-bold">Need inspiration for a walk? Looking for a nice, cosy pub? Look no further.</p>
+    <p class="text-center text-2xl text-gray-400 font-bold">Need inspiration for a walk? Somewhere to warm your boots? Look no further.</p>
     <div id="body" class="my-5 text-center">
       <location-input @getLocation="getLocation(currPos)" @getLocationFromInput="position => getLocation(position.currPos)" />
     </div>
